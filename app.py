@@ -1,15 +1,3 @@
-"""
-Simple Medical RAG System
-=========================
-✅ PDF/Image Upload
-✅ OCR Support
-✅ FAISS Retrieval
-✅ Local LLM using Ollama
-✅ Fast & Minimal UI
-✅ Persistent Summary
-✅ Professional Medical Summary
-✅ Light Pink Theme
-"""
 
 # =====================================================
 # IMPORTS
