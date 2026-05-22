@@ -7,6 +7,7 @@ Simple Medical RAG System
 ✅ Local LLM using Ollama
 ✅ Fast & Minimal UI
 ✅ Persistent Summary
+✅ Professional Medical Summary
 ✅ Light Pink Theme
 """
 
@@ -165,6 +166,11 @@ def extract_text_from_image(image):
 
     text = pytesseract.image_to_string(image)
 
+    # basic cleanup
+    text = text.replace("\n\n", "\n")
+    text = text.replace("|", "")
+    text = text.replace("mgidL", "mg/dL")
+
     return text
 
 # =====================================================
@@ -243,7 +249,7 @@ def retrieve_relevant_chunk(
 # TITLE
 # =====================================================
 
-st.title("🩺 MedInsight- RAG Assistant")
+st.title("🩺 MedInsight - RAG Assistant")
 
 st.caption(
     "Upload medical report and ask questions"
@@ -351,69 +357,95 @@ if uploaded_file is not None:
             tuple(chunks)
         )
 
-    # =====================================================
-    # SUMMARY
-    # =====================================================
+   # =====================================================
+# SUMMARY
+# =====================================================
 
-    st.markdown("---")
+st.markdown("---")
 
-    st.subheader("📋 Report Summary")
+st.subheader("📋 Report Summary")
 
-    if st.button("Generate Summary"):
+if st.button("Generate Summary"):
 
-        with st.spinner("Generating summary..."):
+    with st.spinner("Generating summary..."):
 
-            try:
+        try:
 
-                response = ollama.chat(
+            response = ollama.chat(
 
-                    model="phi3:mini",
+                model="phi3:mini",
 
-                    messages=[
+                messages=[
 
-                        {
-                            "role": "system",
+                    {
+                        "role": "system",
 
-                            "content":
-                            """
-                            Summarize this medical report.
-                            Mention diagnosis and abnormalities.
-                            """
-                        },
+                        "content":
+                        """
+                        Generate a professional medical summary in bullet points.
 
-                        {
-                            "role": "user",
+                        Rules:
+                        - Use only bullet points
+                        - No introduction
+                        - No greetings
+                        - No repeated words
+                        - No incomplete sentences
+                        - Mention abnormal findings first
+                        - Include test name, value, status, and short interpretation
+                        - Keep explanations concise but informative
+                        - Maximum 10 bullet points
+                        - Ignore OCR artifacts or broken symbols
 
-                            "content":
-                            document_text[:1500]
-                        }
-                    ],
+                        Format:
+                        • Test → Value (Status) — Clinical interpretation
 
-                    stream=False
-                )
+                        Example:
+                        • Hemoglobin → 11.1 g/dL (Low) — Mild anemia may be present.
 
-                # SAVE SUMMARY
-                st.session_state.summary = response[
-                    "message"
-                ]["content"]
+                        Final bullet:
+                        • Overall Impression → Short clinical summary
+                        """
+                    },
 
-            except Exception as e:
+                    {
+                        "role": "user",
 
-                st.error(str(e))
+                        "content":
+                        document_text[:2500]
+                    }
+                ],
 
-    # DISPLAY SAVED SUMMARY
-    if st.session_state.summary is not None:
+                stream=False,
 
-        st.markdown(
+                options={
 
-            f"""
-            <div class="response-box">
-            {st.session_state.summary}
-            </div>
-            """,
+                    "temperature": 0.2,
 
-            unsafe_allow_html=True
-        )
+                    "num_predict": 300
+                }
+            )
+
+            st.session_state.summary = response[
+                "message"
+            ]["content"]
+
+        except Exception as e:
+
+            st.error(str(e))
+
+# DISPLAY SUMMARY
+if st.session_state.summary is not None:
+
+    st.markdown(
+
+        f"""
+        <div class="response-box">
+        {st.session_state.summary}
+        </div>
+        """,
+
+        unsafe_allow_html=True
+    )
 
     # =====================================================
     # SIMPLE CHAT
@@ -454,6 +486,8 @@ if uploaded_file is not None:
                             "content":
                             f"""
                             Answer ONLY from this medical report.
+
+                            Keep answers concise and medically relevant.
 
                             Context:
                             {context[:800]}
