@@ -1,20 +1,20 @@
 # -MedInsight-RAG-Assistant
 Medical RAG Assistant using Streamlit, FAISS, Hugging Face embeddings, and Ollama LLMs to enable semantic retrieval, AI-powered summarization, and question answering from medical reports and clinical documents.
 
-# 🚀 Features
+#  Features
 
-- 📄 Upload medical PDFs and images
-- 🔍 OCR support for scanned reports
-- 🧠 Semantic retrieval using FAISS
-- 🤖 AI-powered medical question answering
-- 📋 Automatic report summarization
-- 💬 Interactive medical chat interface
-- 🖥️ Streamlit web application
-- 🔒 Fully offline using Ollama local LLMs
+-  Upload medical PDFs and images
+-  OCR support for scanned reports
+-  Semantic retrieval using FAISS
+-  AI-powered medical question answering
+-  Automatic report summarization
+-  Interactive medical chat interface
+-  Streamlit web application
+-  Fully offline using Ollama local LLMs
 
 ---
 
-# 🧠 Tech Stack
+#  Tech Stack
 
 | Technology | Purpose |
 |---|---|
@@ -28,7 +28,7 @@ Medical RAG Assistant using Streamlit, FAISS, Hugging Face embeddings, and Ollam
 
 ---
 
-# ⚙️ System Architecture
+#  System Architecture
 
 ```text
 Medical Report
@@ -50,7 +50,7 @@ Medical Answer Generation
 
 ---
 
-# 📦 Installation
+# Installation
 
 ## 1. Clone Repository
 
@@ -127,18 +127,18 @@ streamlit run app.py
 
 ---
 
-# 📸 Features Demonstrated
+# 📸Features Demonstrated
 
-✅ Medical OCR  
-✅ Semantic Search  
-✅ Retrieval-Augmented Generation  
-✅ Local LLM Inference  
-✅ AI Summarization  
-✅ Vector Database Retrieval  
+Medical OCR  
+Semantic Search  
+Retrieval-Augmented Generation  
+Local LLM Inference  
+AI Summarization  
+Vector Database Retrieval  
 
 ---
 
-# 📌 Future Improvements
+#  Future Improvements
 
 - Multi-document RAG
 - Chat memory
@@ -148,7 +148,7 @@ streamlit run app.py
 
 ---
 
-# ⚠️ Disclaimer
+#  Disclaimer
 
 This project is for educational and research purposes only and should not replace professional medical advice.
 
